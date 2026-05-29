@@ -1,0 +1,42 @@
+{
+  "originHash" : "f22fced1bb2255da86f13065c7e2e8231d7dcdbe346d922e1a4ee61cea1274c4",
+  "pins" : [
+    {
+      "identity" : "bbps-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/juspay/bbps-ios.git",
+      "state" : {
+        "branch" : "bbps-ios_integration_changes",
+        "revision" : "d350155f5924cd834586d62d4f1ed15ed4d233d4"
+      }
+    },
+    {
+      "identity" : "hypercore-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/juspay/hypercore-ios.git",
+      "state" : {
+        "revision" : "a2cea2ddec2715fe2b5b310b7a0c2fb4926b721e",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "hypersdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/juspay/hypersdk-ios.git",
+      "state" : {
+        "revision" : "f9bd5d917d09128a7d91d38b8e19bec4d74e1049",
+        "version" : "2.2.7"
+      }
+    },
+    {
+      "identity" : "juspaysafebrowser-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/juspay/juspaysafebrowser-ios.git",
+      "state" : {
+        "revision" : "a086ac9b6533929877d80c1489f340d476d4542a",
+        "version" : "0.1.94"
+      }
+    }
+  ],
+  "version" : 3
+}

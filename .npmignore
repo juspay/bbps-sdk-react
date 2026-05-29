@@ -1,0 +1,42 @@
+# Development
+example/
+node_modules/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# CI/CD
+.github/
+.travis.yml
+.circleci/
+
+# Tests
+tests/
+__tests__/
+*.test.js
+*.test.ts
+*.test.tsx
+*.spec.js
+*.spec.ts
+*.spec.tsx
+jest.config.js
+
+# Docs
+CONTRIBUTING.md
+CHANGELOG.md
+
+# Misc
+coverage/
+*.log

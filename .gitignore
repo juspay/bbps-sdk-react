@@ -1,0 +1,87 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Build outputs
+lib/
+dist/
+build/
+*.tsbuildinfo
+
+# React Native
+*.jsbundle
+*.bundle
+
+# iOS
+ios/build/
+ios/DerivedData/
+ios/*.xcworkspace/xcuserdata/
+ios/*.xcodeproj/xcuserdata/
+ios/*.xcodeproj/project.xcworkspace/
+ios/.xcode.env.local
+ios/Pods/
+ios/Podfile.lock
+
+# Android
+android/build/
+android/.gradle/
+android/local.properties
+android/*.iml
+android/.idea/
+android/captures/
+android/gradle/
+android/gradlew
+android/gradlew.bat
+android/app/build/
+android/app/*.iml
+
+# Example app
+example/node_modules/
+example/ios/build/
+example/ios/DerivedData/
+example/ios/Pods/
+example/ios/Podfile.lock
+example/ios/*.xcworkspace/xcuserdata/
+example/android/build/
+example/android/.gradle/
+example/android/app/build/
+example/android/local.properties
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+*.tmp
+*.temp
+
+# Logs
+logs/
+*.log
+
+# Testing
+coverage/
+.nyc_output/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Misc
+*.pid
+*.seed
+*.pid.lock
+.cache/
+.parcel-cache/

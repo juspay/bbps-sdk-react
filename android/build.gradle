@@ -1,0 +1,44 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 33
+    namespace "com.bbpsreactnativesdk"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 33
+        versionCode 1
+        versionName "0.1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+repositories {
+    mavenCentral()
+    google()
+    maven { url 'https://airborne.juspay.in/builds/hyper-sdk/' }
+    maven { url 'https://maven.juspay.in/jp-build-packages/hyper-sdk' }
+}
+
+dependencies {
+    implementation 'com.facebook.react:react-native:+'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.0'
+    // Add your native BBPS Android SDK dependency here
+    // implementation 'com.yourcompany:bbps-android-sdk:1.0.0'
+    implementation "in.juspay:bbps:0.1.10"
+}

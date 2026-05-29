@@ -1,0 +1,56 @@
+{
+  "name": "bbps-react-native-sdk",
+  "version": "0.0.1",
+  "description": "React Native wrapper SDK for BBPS (Bharat Bill Payment System)",
+  "main": "lib/commonjs/index.js",
+  "module": "lib/module/index.js",
+  "types": "lib/typescript/index.d.ts",
+  "react-native": "src/index.ts",
+  "source": "src/index.ts",
+  "files": [
+    "src",
+    "android",
+    "ios",
+    "lib",
+    "bbps-react-native-sdk.podspec"
+  ],
+  "scripts": {
+    "typescript": "tsc --noEmit",
+    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "build": "bob build"
+  },
+  "keywords": [
+    "react-native",
+    "bbps",
+    "sdk",
+    "payments"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/bbps-react-native-sdk.git"
+  },
+  "author": "pawan.singh@juspay.in",
+  "homepage": "https://github.com/your-org/bbps-react-native-sdk",
+  "license": "AGPL-3.0",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": ">=0.60.0"
+  },
+  "devDependencies": {
+    "react": "18.2.0",
+    "react-native": "0.72.6",
+    "react-native-builder-bob": "^0.23.2",
+    "typescript": "^5.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-native": "^0.72.0"
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      "typescript"
+    ]
+  }
+}

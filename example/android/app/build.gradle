@@ -1,0 +1,106 @@
+apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
+apply plugin: "com.facebook.react"
+apply plugin: "bbps.plugin"
+
+import com.android.build.OutputFile
+
+def enableSeparateBuildPerCPUArchitecture = false
+
+def enableProguardInReleaseBuilds = false
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    ndkVersion rootProject.ext.ndkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    defaultConfig {
+        applicationId "com.juspay.bbpsapp"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+
+    splits {
+        abi {
+            reset()
+            enable enableSeparateBuildPerCPUArchitecture
+            universalApk false
+            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+        }
+    }
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            signingConfig signingConfigs.debug
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
+            def abi = output.getFilter(OutputFile.ABI)
+            if (abi != null) {
+                output.versionCodeOverride =
+                        defaultConfig.versionCode * 1048576 + versionCodes.get(abi)
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: "*.jar")
+    implementation("com.facebook.react:react-android")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
+    if (hermesEnabled.toBoolean()) {
+        implementation("com.facebook.react:hermes-android")
+    } else {
+        implementation("io.github.react-native-community:jsc-android:2022004.0.0")
+    }
+}
+
+bbps {
+    clientId = "fibe"
+    sdkVersion = "0.1.10"
+}
+
+// Hook into resource processing to strip unsupported attributes before aapt2
+afterEvaluate {
+    def processDebugResources = tasks.findByName("processDebugResources")
+    if (processDebugResources) {
+        processDebugResources.doFirst {
+            def manifestFile = file("${buildDir}/intermediates/packaged_manifests/debug/AndroidManifest.xml")
+            if (manifestFile.exists()) {
+                def text = manifestFile.text
+                text = text.replaceAll(/android:intentMatchingFlags="[^"]*"/, '')
+                manifestFile.text = text
+                println "[ManifestPatch] Removed intentMatchingFlags attributes"
+            }
+        }
+    }
+}
+
+apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

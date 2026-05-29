@@ -1,0 +1,50 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext {
+        buildToolsVersion = "33.0.0"
+        minSdkVersion = 21
+        compileSdkVersion = 33
+        targetSdkVersion = 33
+        ndkVersion = "23.1.7779620"
+        kotlinVersion = "1.8.0"
+    }
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url "https://airborne.juspay.in/builds/hyper-sdk/"
+            content { includeGroup("in.juspay") }
+        }
+        maven {
+            url "https://maven.juspay.in/jp-build-packages/hyper-sdk"
+            content { includeGroup("in.juspay") }
+        }
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:7.3.1")
+        classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("in.juspay:bbps.plugin:0.0.2")
+    }
+}
+
+allprojects {
+    repositories {
+        maven {
+            url(new File(["node", "--print", "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim(), "../android"))
+        }
+        maven {
+            url(new File(["node", "--print", "require.resolve('jsc-android/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim(), "../dist"))
+        }
+        mavenCentral {
+            content {
+                excludeGroup "com.facebook.react"
+            }
+        }
+        google()
+        maven { url 'https://www.jitpack.io' }
+        maven { url 'https://airborne.juspay.in/builds/hyper-sdk/' }
+        maven { url 'https://maven.juspay.in/jp-build-packages/hyper-sdk' }
+    }
+}
