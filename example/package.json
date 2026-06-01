@@ -8,17 +8,17 @@
     "start": "react-native start"
   },
   "dependencies": {
-    "react": "18.2.0",
-    "react-native": "0.72.6",
     "@react-native-clipboard/clipboard": "^1.13.2",
-    "bbps-react-native-sdk": "../"
+    "bbps-react-native-sdk": "../",
+    "react": "18.2.0",
+    "react-native": "0.85.3"
   },
   "devDependencies": {
-    "metro-react-native-babel-preset": "0.76.8",
     "@babel/core": "^7.20.0",
     "@babel/runtime": "^7.20.0",
     "@react-native-community/cli": "11.3.7",
     "@react-native-community/cli-platform-android": "11.3.7",
-    "@react-native/metro-config": "^0.72.0"
+    "@react-native/metro-config": "^0.72.0",
+    "metro-react-native-babel-preset": "0.76.8"
   }
 }
