@@ -32,6 +32,9 @@
   "author": "pawan.singh@juspay.in",
   "homepage": "https://github.com/your-org/bbps-react-native-sdk",
   "license": "AGPL-3.0",
+  "engines": {
+    "node": "^20.19.4 || ^22.13.0 || ^24.3.0 || >=25.0.0"
+  },
   "peerDependencies": {
     "react": "*",
     "react-native": ">=0.60.0"
