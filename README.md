@@ -5,15 +5,15 @@ React Native wrapper for BBPS (Bharat Bill Payment System) native SDKs.
 ## Prerequisites
 
 - React Native >= 0.60.0
-- iOS: Xcode 14+, iOS 12.0+
-- Android: minSdkVersion 21, compileSdkVersion 33+
+- iOS: Xcode 14+, iOS 15.1+
+- Android: minSdkVersion 24, compileSdkVersion 35+
 
 ## Installation
 
 ```bash
-npm install bbps-react-native-sdk
+npm install bbps-sdk-react
 # or
-yarn add bbps-react-native-sdk
+yarn add bbps-sdk-react
 ```
 
 ### iOS Setup
@@ -30,7 +30,7 @@ cd ios && pod install && cd ..
 
 3. Ensure your app's `Podfile` has the correct iOS deployment target:
 ```ruby
-platform :ios, '12.0'
+platform :ios, '15.1'
 ```
 
 ### Android Setup
@@ -39,10 +39,10 @@ The SDK auto-links on React Native 0.60+. Ensure your app's `android/build.gradl
 
 ```gradle
 android {
-    compileSdkVersion 33
+    compileSdkVersion 35
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 33
+        minSdkVersion 24
+        targetSdkVersion 35
     }
 }
 ```
@@ -72,7 +72,7 @@ import {
   process,
   terminate,
   BbpsRawEvent,
-} from 'bbps-react-native-sdk';
+} from 'bbps-sdk-react';
 ```
 
 ### 2. Create Service & Register Callback
@@ -209,12 +209,12 @@ interface BbpsRawEvent {
 ### iOS
 - Requires BBPSSDK integrated via Swift Package Manager
 - Uses runtime messaging to avoid compile-time coupling
-- Supports iOS 12.0+
+- Supports iOS 15.1+
 
 ### Android
 - Auto-links on React Native 0.60+
 - Requires FragmentActivity context
-- Supports Android API 21+
+- Supports Android API 24+
 
 ## Troubleshooting
 
@@ -228,16 +228,16 @@ Call `createService()` before `initiate()` or `process()`.
 Ensure you've passed a callback to `createService()`. The callback persists across operations.
 
 ### Android Build Issues
-- Verify `minSdkVersion >= 21`
+- Verify `minSdkVersion >= 24`
 - Check that the native BBPS SDK dependency is correctly configured
 - Ensure Kotlin JVM target aligns with Java compatibility:
 ```gradle
 kotlinOptions {
-    jvmTarget = '11'
+    jvmTarget = '17'
 }
 compileOptions {
-    sourceCompatibility JavaVersion.VERSION_11
-    targetCompatibility JavaVersion.VERSION_11
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
 }
 ```
 
@@ -245,25 +245,6 @@ compileOptions {
 If you see path errors during `pod install`, ensure the podspec reads:
 ```ruby
 package = JSON.parse(File.read(File.join(__dir__, 'package.json')))
-```
-
-## Example App
-
-A complete example app is included in the `/example` directory:
-
-```bash
-cd example
-npm install
-cd ios && pod install && cd ..
-npm run ios   # or npm run android
-```
-
-## Running the Example App
-
-```bash
-cd example
-npm install
-npm run android   # or npm run ios
 ```
 
 ## License

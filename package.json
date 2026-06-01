@@ -1,5 +1,5 @@
 {
-  "name": "bbps-react-native-sdk",
+  "name": "bbps-sdk-react",
   "version": "0.0.1",
   "description": "React Native wrapper SDK for BBPS (Bharat Bill Payment System)",
   "main": "lib/commonjs/index.js",
@@ -12,7 +12,7 @@
     "android",
     "ios",
     "lib",
-    "bbps-react-native-sdk.podspec"
+    "bbps-sdk-react.podspec"
   ],
   "scripts": {
     "typescript": "tsc --noEmit",
@@ -27,10 +27,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/bbps-react-native-sdk.git"
+    "url": "https://github.com/your-org/bbps-sdk-react.git"
   },
   "author": "pawan.singh@juspay.in",
-  "homepage": "https://github.com/your-org/bbps-react-native-sdk",
+  "homepage": "https://github.com/your-org/bbps-sdk-react",
   "license": "AGPL-3.0",
   "engines": {
     "node": "^20.19.4 || ^22.13.0 || ^24.3.0 || >=25.0.0"
@@ -40,12 +40,15 @@
     "react-native": ">=0.60.0"
   },
   "devDependencies": {
-    "react": "18.2.0",
+    "@react-native-community/cli": "^20.1.3",
+    "@react-native-community/cli-platform-android": "^20.1.3",
+    "@react-native/metro-config": "^0.85.3",
+    "@types/react": "^19.1.1",
+    "@types/react-native": "^0.72.0",
+    "react": "^19.2.3",
     "react-native": "0.85.3",
     "react-native-builder-bob": "^0.23.2",
-    "typescript": "^5.0.0",
-    "@types/react": "^18.0.0",
-    "@types/react-native": "^0.72.0"
+    "typescript": "^5.0.0"
   },
   "react-native-builder-bob": {
     "source": "src",

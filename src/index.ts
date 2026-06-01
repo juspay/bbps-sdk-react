@@ -1,8 +1,8 @@
 import { NativeModules, NativeEventEmitter, EmitterSubscription } from 'react-native';
 
-const { BbpsReactNativeSdk } = NativeModules;
+const { BbpsSdkReact } = NativeModules;
 
-const eventEmitter = new NativeEventEmitter(BbpsReactNativeSdk);
+const eventEmitter = new NativeEventEmitter(BbpsSdkReact);
 
 export interface BbpsRawEvent {
   event: string;
@@ -25,7 +25,7 @@ function registerNativeCallback() {
     const normalized = normalizeEvent(raw);
     _globalCallback?.(normalized);
   };
-  BbpsReactNativeSdk.registerEventCallback(nativeCallback);
+  BbpsSdkReact.registerEventCallback(nativeCallback);
 }
 
 export const createService = (
@@ -46,19 +46,19 @@ export const createService = (
 
     registerNativeCallback();
   }
-  return BbpsReactNativeSdk.createService(clientId);
+  return BbpsSdkReact.createService(clientId);
 };
 
 export const initiate = (payload: Record<string, unknown>): Promise<void> => {
-  return BbpsReactNativeSdk.initiate(payload);
+  return BbpsSdkReact.initiate(payload);
 };
 
 export const process = (payload: Record<string, unknown>): Promise<void> => {
-  return BbpsReactNativeSdk.process(payload);
+  return BbpsSdkReact.process(payload);
 };
 
 export const onBackPressed = (): Promise<boolean> => {
-  return BbpsReactNativeSdk.onBackPressed();
+  return BbpsSdkReact.onBackPressed();
 };
 
 export const terminate = (): void => {
@@ -67,9 +67,9 @@ export const terminate = (): void => {
     _subscription = null;
     _globalCallback = null;
   }
-  return BbpsReactNativeSdk.terminate();
+  return BbpsSdkReact.terminate();
 };
 
 export const testEmit = (): Promise<string> => {
-  return BbpsReactNativeSdk.testEmit();
+  return BbpsSdkReact.testEmit();
 };
