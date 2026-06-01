@@ -18,18 +18,18 @@ import {
 const INITIATE_PAYLOAD = {
   action: 'initiate',
   clientId: 'fibe',
-  agentId: 'YB71YB72MOB511066132',
+  agentId: 'YOUR_AGENT_ID',
   environment: 'sandbox',
   mobile: '9876543210',
   deviceId: 'DEVICE_TEST_001',
   issuingCou: 'yes_biz',
-  authToken: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IllCNzFZQjcyTU9CNTExMDY2MTMyIn0.eyJtb2JpbGUiOiI5MDEwMjAzMDQwIiwiZGV2aWNlX2lkIjoiZGV2aWNlMDAxIiwiaWF0IjoxNzc5Mjc0OTIwfQ.G9grwYRWPAQTuWVxykrwNl23iCebv55HMbEo7pg7jcVV69NhVZiMXWsPmIFG2wlYYWZJBbQ5yPH40lqSRaOfkENbugcku7eGel2WNulDvCKiZmnqmtKNloj11LE4Ka-IbFghAEid1ONLDgYixtzR7kN8nzQSrmltQOnK1z3nUN6-a7OacFJ0bH2Wnz0cmZ_iTQk4flnCHbQuOVF-5XG6OzvRdRgGE1_-C7lsCMGmyRgBaDUjM1c8qQptn3bLLgs9h-MlBFp4Std-6NW77nNz6aaYAE_s0ovJ0N2dunsLDcr11XHaxS2Lng5ysQSzeVYihby3r_vLkhFR0rgpEK3FDw',
+  authToken: 'YOUR_AUTH_TOKEN',
 };
 
 const PROCESS_PAYLOAD = {
   action: 'BBPS_PAYMENT',
-  agentId: 'YB71YB72MOB511066132',
-  authToken: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IllCNzFZQjcyTU9CNTExMDY2MTMyIn0.eyJtb2JpbGUiOiI5MDEwMjAzMDQwIiwiZGV2aWNlX2lkIjoiZGV2aWNlMDAxIiwiaWF0IjoxNzc5Mjc0OTIwfQ.G9grwYRWPAQTuWVxykrwNl23iCebv55HMbEo7pg7jcVV69NhVZiMXWsPmIFG2wlYYWZJBbQ5yPH40lqSRaOfkENbugcku7eGel2WNulDvCKiZmnqmtKNloj11LE4Ka-IbFghAEid1ONLDgYixtzR7kN8nzQSrmltQOnK1z3nUN6-a7OacFJ0bH2Wnz0cmZ_iTQk4flnCHbQuOVF-5XG6OzvRdRgGE1_-C7lsCMGmyRgBaDUjM1c8qQptn3bLLgs9h-MlBFp4Std-6NW77nNz6aaYAE_s0ovJ0N2dunsLDcr11XHaxS2Lng5ysQSzeVYihby3r_vLkhFR0rgpEK3FDw',
+  agentId: 'YOUR_AGENT_ID',
+  authToken: 'YOUR_AUTH_TOKEN',
 };
 
 function App() {
