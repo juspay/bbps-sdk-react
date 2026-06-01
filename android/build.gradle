@@ -2,12 +2,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 33
-    namespace "com.bbpsreactnativesdk"
+    compileSdkVersion 35
+    namespace "com.bbpssdkreact"
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 33
+        minSdkVersion 24
+        targetSdkVersion 35
         versionCode 1
         versionName "0.1.0"
     }
@@ -19,12 +19,12 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = '17'
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
@@ -36,9 +36,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.facebook.react:react-native:+'
+    implementation 'com.facebook.react:react-android'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.0'
-    // Add your native BBPS Android SDK dependency here
-    // implementation 'com.yourcompany:bbps-android-sdk:1.0.0'
     implementation "in.juspay:bbps:0.1.10"
 }

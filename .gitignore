@@ -4,6 +4,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+package-lock.json
 
 # Build outputs
 lib/
@@ -14,6 +15,7 @@ build/
 # React Native
 *.jsbundle
 *.bundle
+.metro-health-check*
 
 # iOS
 ios/build/
@@ -24,6 +26,8 @@ ios/*.xcodeproj/project.xcworkspace/
 ios/.xcode.env.local
 ios/Pods/
 ios/Podfile.lock
+*.xcuserstate
+*.xcscmblueprint
 
 # Android
 android/build/
@@ -32,23 +36,26 @@ android/local.properties
 android/*.iml
 android/.idea/
 android/captures/
-android/gradle/
-android/gradlew
-android/gradlew.bat
-android/app/build/
-android/app/*.iml
 
 # Example app
 example/node_modules/
+example/package-lock.json
+
 example/ios/build/
 example/ios/DerivedData/
 example/ios/Pods/
 example/ios/Podfile.lock
 example/ios/*.xcworkspace/xcuserdata/
+example/ios/*.xcuserstate
+example/ios/.xcode.env.local
+
 example/android/build/
 example/android/.gradle/
 example/android/app/build/
 example/android/local.properties
+example/android/.idea/
+example/android/*.iml
+example/android/captures/
 
 # IDE
 .idea/
@@ -62,9 +69,11 @@ example/android/local.properties
 
 # OS
 .DS_Store
+.DS_Store?
 Thumbs.db
 *.tmp
 *.temp
+._*
 
 # Logs
 logs/
@@ -85,3 +94,31 @@ coverage/
 *.pid.lock
 .cache/
 .parcel-cache/
+
+# CocoaPods
+!example/ios/Pods/ # explicitly ignored above
+
+# Xcode
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+
+# Gradle
+.gradle/
+
+# Buck
+.buckd/
+buck-out/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
