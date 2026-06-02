@@ -27,10 +27,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/bbps-sdk-react.git"
+    "url": "https://github.com/juspay/bbps-sdk-react.git"
   },
   "author": "pawan.singh@juspay.in",
-  "homepage": "https://github.com/your-org/bbps-sdk-react",
+  "homepage": "https://github.com/juspay/bbps-sdk-react",
   "license": "AGPL-3.0",
   "engines": {
     "node": "^20.19.4 || ^22.13.0 || ^24.3.0 || >=25.0.0"
