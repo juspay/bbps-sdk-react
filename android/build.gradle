@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 35
-    namespace "com.bbpssdkreact"
+    namespace "in.juspay.bbpssdkreact"
 
     defaultConfig {
         minSdkVersion 24

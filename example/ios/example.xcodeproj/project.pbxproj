@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,7 @@
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		AC1C66192FCDB8390037BE03 /* BBPSSDK in Frameworks */ = {isa = PBXBuildFile; productRef = AC1C66182FCDB8390037BE03 /* BBPSSDK */; };
+		AC1C661C2FCEA8410037BE03 /* BBPSSDK in Frameworks */ = {isa = PBXBuildFile; productRef = AC1C661B2FCEA8410037BE03 /* BBPSSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC1C661C2FCEA8410037BE03 /* BBPSSDK in Frameworks */,
 				AC1C66192FCDB8390037BE03 /* BBPSSDK in Frameworks */,
 				0C80B921A6F3F58F76C31292 /* libPods-example.a in Frameworks */,
 			);
@@ -147,7 +149,7 @@
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
-				AC1C66172FCDB8390037BE03 /* XCLocalSwiftPackageReference "../../../../../bbps-ios" */,
+				AC1C661A2FCEA8410037BE03 /* XCRemoteSwiftPackageReference "bbps-ios" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -196,13 +198,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-example/Pods-example-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-example/Pods-example-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -239,13 +237,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-example/Pods-example-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-example/Pods-example-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -503,16 +497,25 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		AC1C66172FCDB8390037BE03 /* XCLocalSwiftPackageReference "../../../../../bbps-ios" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../../../../../bbps-ios";
+/* Begin XCRemoteSwiftPackageReference section */
+		AC1C661A2FCEA8410037BE03 /* XCRemoteSwiftPackageReference "bbps-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/juspay/bbps-ios.git";
+			requirement = {
+				branch = "bbps-ios_integration_changes";
+				kind = branch;
+			};
 		};
-/* End XCLocalSwiftPackageReference section */
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		AC1C66182FCDB8390037BE03 /* BBPSSDK */ = {
 			isa = XCSwiftPackageProductDependency;
+			productName = BBPSSDK;
+		};
+		AC1C661B2FCEA8410037BE03 /* BBPSSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AC1C661A2FCEA8410037BE03 /* XCRemoteSwiftPackageReference "bbps-ios" */;
 			productName = BBPSSDK;
 		};
 /* End XCSwiftPackageProductDependency section */

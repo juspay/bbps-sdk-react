@@ -1,4 +1,4 @@
-package com.bbpssdkreact
+package `in`.juspay.bbpssdkreact
 
 import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule
