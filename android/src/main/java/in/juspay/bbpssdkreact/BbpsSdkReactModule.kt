@@ -1,4 +1,4 @@
-package com.bbpssdkreact
+package `in`.juspay.bbpssdkreact
 
 import android.util.Log
 import androidx.fragment.app.FragmentActivity

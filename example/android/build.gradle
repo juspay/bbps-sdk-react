@@ -29,6 +29,8 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
+        mavenCentral()
         maven {
             url "https://airborne.juspay.in/builds/hyper-sdk/"
         }

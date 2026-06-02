@@ -1,8 +1,23 @@
-import { NativeModules, NativeEventEmitter, EmitterSubscription } from 'react-native';
+import { NativeModules, NativeEventEmitter, EmitterSubscription, Platform } from 'react-native';
 
-const { BbpsSdkReact } = NativeModules;
+const LINKING_ERROR =
+  `The package 'bbps-sdk-react' doesn't seem to be linked. Make sure:\n\n` +
+  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
+  '- You rebuilt the app after installing the package\n' +
+  '- You are not using Expo Go\n';
 
-const eventEmitter = new NativeEventEmitter(BbpsSdkReact);
+const BbpsSdkReact = NativeModules.BbpsSdkReact
+  ? NativeModules.BbpsSdkReact
+  : new Proxy(
+      {},
+      {
+        get() {
+          throw new Error(LINKING_ERROR);
+        },
+      }
+    );
+
+const eventEmitter = new NativeEventEmitter(BbpsSdkReact as any);
 
 export interface BbpsRawEvent {
   event: string;

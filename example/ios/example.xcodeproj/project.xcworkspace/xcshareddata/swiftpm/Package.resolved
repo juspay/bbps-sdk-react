@@ -1,6 +1,15 @@
 {
-  "originHash" : "904d17fe8f5fe7f9fce1c15393ff8545909237b3e3e74865972425239e000284",
+  "originHash" : "f22fced1bb2255da86f13065c7e2e8231d7dcdbe346d922e1a4ee61cea1274c4",
   "pins" : [
+    {
+      "identity" : "bbps-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/juspay/bbps-ios.git",
+      "state" : {
+        "branch" : "bbps-ios_integration_changes",
+        "revision" : "d350155f5924cd834586d62d4f1ed15ed4d233d4"
+      }
+    },
     {
       "identity" : "hypercore-ios",
       "kind" : "remoteSourceControl",
