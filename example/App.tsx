@@ -12,6 +12,7 @@ import {
   initiate,
   process,
   terminate,
+  testEmit,
   BbpsRawEvent,
 } from 'bbps-sdk-react';
 
@@ -38,14 +39,20 @@ function App() {
   const [initiateResponse, setInitiateResponse] = useState('');
   const [processRequest, setProcessRequest] = useState('');
   const [processResponse, setProcessResponse] = useState('');
+  const [logs, setLogs] = useState<string[]>([]);
+
+  const addLog = (msg: string) => {
+    setLogs(prev => [...prev.slice(-9), `${new Date().toLocaleTimeString()}: ${msg}`]);
+  };
 
   const handleEvent = (event: BbpsRawEvent) => {
+    addLog(`EVENT: ${event.event}`);
     const json = JSON.stringify(event, null, 2);
     const eventName = event.event?.toLowerCase() ?? '';
 
     if (eventName.includes('initiate')) {
       setInitiateResponse(json);
-    } else if (eventName.includes('process')) {
+    } else {
       setProcessResponse(json);
     }
 
@@ -55,9 +62,12 @@ function App() {
   const onCreateService = async () => {
     try {
       setStatus('Creating service...');
+      addLog('Calling createService...');
       await createService('fibe', handleEvent);
+      addLog('createService success');
       setStatus('Service created');
     } catch (e: any) {
+      addLog(`createService ERROR: ${e.message}`);
       setStatus(`Error: ${e.message}`);
     }
   };
@@ -67,9 +77,12 @@ function App() {
       setStatus('Initiating...');
       setInitiateRequest(JSON.stringify(INITIATE_PAYLOAD, null, 2));
       setInitiateResponse('');
+      addLog('Calling initiate...');
       await initiate(INITIATE_PAYLOAD);
+      addLog('initiate called (async done)');
       setStatus('Initiate called');
     } catch (e: any) {
+      addLog(`initiate ERROR: ${e.message}`);
       setStatus(`Error: ${e.message}`);
       setInitiateResponse(`Error: ${e.message}`);
     }
@@ -95,6 +108,7 @@ function App() {
     setInitiateResponse('');
     setProcessRequest('');
     setProcessResponse('');
+    setLogs([]);
   };
 
   return (
@@ -116,6 +130,12 @@ function App() {
           <TouchableOpacity style={[styles.button, styles.terminateBtn]} onPress={onTerminate}>
             <Text style={styles.buttonText}>terminate</Text>
           </TouchableOpacity>
+          <TouchableOpacity style={[styles.button, {backgroundColor: '#9C27B0'}]} onPress={() => {
+            addLog('testEmit clicked');
+            testEmit().then(r => addLog(`testEmit OK: ${r}`)).catch(e => addLog(`testEmit ERR: ${e.message}`));
+          }}>
+            <Text style={styles.buttonText}>testEmit</Text>
+          </TouchableOpacity>
         </View>
 
         <Section
@@ -129,6 +149,17 @@ function App() {
           request={processRequest}
           response={processResponse}
         />
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Diagnostics</Text>
+          {logs.length === 0 ? (
+            <Text style={styles.codeText}>No events yet...</Text>
+          ) : (
+            logs.map((log, i) => (
+              <Text key={i} style={[styles.codeText, {fontSize: 11, marginBottom: 2}]}>{log}</Text>
+            ))
+          )}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
