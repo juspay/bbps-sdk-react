@@ -1,6 +1,6 @@
 {
   "name": "bbps-sdk-react",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "React Native wrapper SDK for BBPS (Bharat Bill Payment System)",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
@@ -12,6 +12,7 @@
     "android",
     "ios",
     "lib",
+    "scripts",
     "bbps-sdk-react.podspec"
   ],
   "scripts": {
