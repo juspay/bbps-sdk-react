@@ -1,32 +1,42 @@
 package `in`.juspay.bbpssdkreact
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.facebook.react.bridge.*
+import com.facebook.react.modules.core.DeviceEventManagerModule
 import `in`.org.npci.bbps.BBPSService
 import `in`.org.npci.bbps.BBPSAgentInterface
 import org.json.JSONArray
 import org.json.JSONObject
 
+/**
+ * BBPS React Native bridge module.
+ *
+ * Mirrors hyper-sdk-react pattern:
+ * - Uses RCTDeviceEventEmitter with retry if bridge not ready
+ * - Emits JSON strings (compatible with both legacy and Bridgeless)
+ */
 class BbpsSdkReactModule(reactContext: ReactApplicationContext) :
-    ReactContextBaseJavaModule(reactContext), BBPSAgentInterface, LifecycleEventListener {
+    ReactContextBaseJavaModule(reactContext), BBPSAgentInterface {
 
     private var bbpsService: BBPSService? = null
-    private var eventCallback: Callback? = null
-
-    init {
-        reactContext.addLifecycleEventListener(this)
-    }
 
     companion object {
         private const val TAG = "BBPS_RN"
+        private const val EVENT_NAME = "BBPS_EVENT"
     }
 
     override fun getName(): String = "BbpsSdkReact"
 
-    override fun onHostResume() {}
-    override fun onHostPause() {}
-    override fun onHostDestroy() {}
+    @ReactMethod
+    fun addListener(eventName: String) {}
+
+    @ReactMethod
+    fun removeListeners(count: Int) {}
+
+    // region BBPSAgentInterface callbacks
 
     override fun initiate_result(payload: JSONObject) {
         sendEventToJS(payload)
@@ -44,59 +54,53 @@ class BbpsSdkReactModule(reactContext: ReactApplicationContext) :
         sendEventToJS(payload)
     }
 
-    private fun sendEventToJS(nativeResponse: JSONObject) {
-        val event = nativeResponse.optString("event", "UNKNOWN")
-        val payload = nativeResponse.opt("payload") ?: JSONObject()
-        val cb = eventCallback
-        if (cb != null) {
-            try {
-                val wrapper = JSONObject()
-                wrapper.put("event", event)
-                wrapper.put("payload", payload)
-                cb.invoke(jsonToWritableMap(wrapper))
-            } catch (e: Exception) {
-                Log.e(TAG, "Callback invoke failed", e)
+    // endregion
+
+    // Buffer for events when JS isn't ready to receive them
+    private val eventQueue = mutableListOf<JSONObject>()
+    private var eventPromise: Promise? = null
+
+    /**
+     * Bridgeless-safe event delivery using Promise-based polling.
+     * Events are queued and delivered via waitForEvent() Promise.
+     */
+    private fun sendEventToJS(data: JSONObject) {
+        synchronized(eventQueue) {
+            eventPromise?.let { promise ->
+                try {
+                    promise.resolve(data.toString())
+                    eventPromise = null
+                    return
+                } catch (e: Exception) {
+                    // Promise already resolved/rejected; fall through to queue
+                }
             }
-        } else {
-            Log.w(TAG, "No event callback registered, dropping event: $event")
+            eventQueue.add(data)
         }
     }
 
-    private fun jsonToWritableMap(json: JSONObject): WritableMap {
-        val map = Arguments.createMap()
-        val keys = json.keys()
-        while (keys.hasNext()) {
-            val key = keys.next()
-            when (val value = json.get(key)) {
-                is String -> map.putString(key, value)
-                is Boolean -> map.putBoolean(key, value)
-                is Double -> map.putDouble(key, value)
-                is Int -> map.putInt(key, value)
-                is Long -> map.putDouble(key, value.toDouble())
-                is JSONObject -> map.putMap(key, jsonToWritableMap(value))
-                is JSONArray -> map.putArray(key, jsonToWritableArray(value))
-                else -> map.putString(key, value.toString())
+    @ReactMethod
+    fun waitForEvent(promise: Promise) {
+        synchronized(eventQueue) {
+            if (eventQueue.isNotEmpty()) {
+                val event = eventQueue.removeAt(0)
+                promise.resolve(event.toString())
+            } else {
+                eventPromise = promise
             }
         }
-        return map
     }
 
-    private fun jsonToWritableArray(array: JSONArray): WritableArray {
-        val writableArray = Arguments.createArray()
-        for (i in 0 until array.length()) {
-            when (val value = array.get(i)) {
-                is String -> writableArray.pushString(value)
-                is Boolean -> writableArray.pushBoolean(value)
-                is Double -> writableArray.pushDouble(value)
-                is Int -> writableArray.pushInt(value)
-                is Long -> writableArray.pushDouble(value.toDouble())
-                is JSONObject -> writableArray.pushMap(jsonToWritableMap(value))
-                is JSONArray -> writableArray.pushArray(jsonToWritableArray(value))
-                else -> writableArray.pushString(value.toString())
-            }
+    private fun getJSModule(): DeviceEventManagerModule.RCTDeviceEventEmitter? {
+        return try {
+            reactApplicationContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to get RCTDeviceEventEmitter", e)
+            null
         }
-        return writableArray
     }
+
+    // region Public API
 
     @ReactMethod
     fun createService(clientId: String, promise: Promise) {
@@ -110,20 +114,19 @@ class BbpsSdkReactModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun registerEventCallback(callback: Callback) {
-        eventCallback = callback
+        // Deprecated
     }
 
     @ReactMethod
     fun testEmit(promise: Promise) {
         try {
-            val testMap = Arguments.createMap()
-            testMap.putString("event", "test_emit")
-            
-            val payloadMap = Arguments.createMap()
-            payloadMap.putString("message", "hello_from_testEmit")
-            testMap.putMap("payload", payloadMap)
-
-            eventCallback?.invoke(testMap)
+            val testData = JSONObject().apply {
+                put("event", "test_emit")
+                put("payload", JSONObject().apply {
+                    put("message", "hello_from_testEmit")
+                })
+            }
+            sendEventToJS(testData)
             promise.resolve("test emit done")
         } catch (e: Exception) {
             promise.reject("TEST_EMIT_ERROR", e.message, e)
@@ -168,11 +171,9 @@ class BbpsSdkReactModule(reactContext: ReactApplicationContext) :
         bbpsService = null
     }
 
-    @ReactMethod
-    fun addListener(eventName: String) {}
+    // endregion
 
-    @ReactMethod
-    fun removeListeners(count: Int) {}
+    // region JSON Helpers
 
     private fun readableMapToJson(readableMap: ReadableMap): JSONObject {
         val json = JSONObject()
@@ -205,4 +206,6 @@ class BbpsSdkReactModule(reactContext: ReactApplicationContext) :
         }
         return array
     }
+
+    // endregion
 }

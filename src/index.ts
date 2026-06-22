@@ -1,4 +1,4 @@
-import { NativeModules, NativeEventEmitter, EmitterSubscription, Platform } from 'react-native';
+import { NativeModules, Platform } from 'react-native';
 
 const LINKING_ERROR =
   `The package 'bbps-sdk-react' doesn't seem to be linked. Make sure:\n\n` +
@@ -17,30 +17,36 @@ const BbpsSdkReact = NativeModules.BbpsSdkReact
       }
     );
 
-const eventEmitter = new NativeEventEmitter(BbpsSdkReact as any);
-
 export interface BbpsRawEvent {
   event: string;
   payload: Record<string, unknown>;
 }
 
 let _globalCallback: ((event: BbpsRawEvent) => void) | null = null;
-let _subscription: EmitterSubscription | null = null;
+let _isPolling = false;
 
-function normalizeEvent(raw: unknown): BbpsRawEvent {
-  const r = raw as Record<string, unknown> | undefined;
-  return {
-    event: (r?.event as string) ?? (r?.type as string) ?? 'UNKNOWN',
-    payload: (r?.payload as Record<string, unknown>) ?? (r ?? {}),
-  };
-}
+function startPolling() {
+  if (_isPolling) return;
+  _isPolling = true;
 
-function registerNativeCallback() {
-  const nativeCallback = (raw: unknown) => {
-    const normalized = normalizeEvent(raw);
-    _globalCallback?.(normalized);
+  const poll = async () => {
+    while (_isPolling) {
+      try {
+        const raw: string = await BbpsSdkReact.waitForEvent();
+        console.warn('[BBPS_JS] EVENT ARRIVED (poll):', raw.substring(0, 100));
+        const parsed = JSON.parse(raw);
+        const normalized: BbpsRawEvent = {
+          event: parsed.event ?? 'UNKNOWN',
+          payload: parsed.payload ?? parsed ?? {},
+        };
+        _globalCallback?.(normalized);
+      } catch (e) {
+        console.error('[BBPS_JS] Poll error:', e);
+      }
+    }
   };
-  BbpsSdkReact.registerEventCallback(nativeCallback);
+
+  poll();
 }
 
 export const createService = (
@@ -48,18 +54,8 @@ export const createService = (
   callback?: (event: BbpsRawEvent) => void
 ): Promise<void> => {
   if (callback) {
-    if (_subscription) {
-      _subscription.remove();
-      _subscription = null;
-    }
     _globalCallback = callback;
-
-    _subscription = eventEmitter.addListener('BBPS_EVENT', (raw: unknown) => {
-      const normalized = normalizeEvent(raw);
-      _globalCallback?.(normalized);
-    });
-
-    registerNativeCallback();
+    startPolling();
   }
   return BbpsSdkReact.createService(clientId);
 };
@@ -77,14 +73,16 @@ export const onBackPressed = (): Promise<boolean> => {
 };
 
 export const terminate = (): void => {
-  if (_subscription) {
-    _subscription.remove();
-    _subscription = null;
-    _globalCallback = null;
-  }
+  _isPolling = false;
+  _globalCallback = null;
   return BbpsSdkReact.terminate();
 };
 
 export const testEmit = (): Promise<string> => {
   return BbpsSdkReact.testEmit();
+};
+
+export const cleanup = (): void => {
+  _isPolling = false;
+  _globalCallback = null;
 };
